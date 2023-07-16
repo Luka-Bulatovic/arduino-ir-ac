@@ -16,6 +16,9 @@ private:
   Map<String, MessageHandler> handlers;
   bool newDataAvailable = false;
 
+  static const char startMessageMarker = '<';
+  static const char endMessageMarker = '>';
+
 public:
   static const char separator = '#';
 

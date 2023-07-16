@@ -2,11 +2,11 @@
 #include "SerialCommunication.h"
 
 void SerialCommunication::sendMessage(const char* tag, const char* message) {
-  stream->print('<');
+  stream->print(startMessageMarker);
   stream->print(tag);
   stream->print(SerialCommunication::separator);
   stream->print(message);
-  stream->println('>');
+  stream->println(endMessageMarker);
 }
 
 void SerialCommunication::handleMessage() {
@@ -46,8 +46,8 @@ void SerialCommunication::handleMessage(char* message) {
 void SerialCommunication::receiveIncomingData() {
   static boolean recvInProgress = false;
   static int ndx = 0;
-  char startMarker = '<';
-  char endMarker = '>';
+  char startMarker = startMessageMarker;
+  char endMarker = endMessageMarker;
   char rc;
 
   while (stream->available() > 0 && newDataAvailable == false) {
