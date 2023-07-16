@@ -13,7 +13,7 @@ void SerialCommunication::handleMessage() {
   if (stream->available() > 0) {
     this->receiveIncomingData();
 
-    if(this->newDataAvailable) {
+    if (this->newDataAvailable) {
       handleMessage(this->incomingDataBuffer);
 
       this->newDataAvailable = false;
@@ -22,7 +22,8 @@ void SerialCommunication::handleMessage() {
 }
 
 void SerialCommunication::registerHandler(const char* messageType, MessageHandler handler) {
-  handlers[messageType] = handler;
+  // handlers[messageType] = handler;
+  handlers.insert(messageType, handler);
 }
 
 void SerialCommunication::handleMessage(char* message) {
@@ -33,40 +34,42 @@ void SerialCommunication::handleMessage(char* message) {
     char* messageType = message;
     char* messageContent = separatorPointer + 1;
 
-    if (handlers.find(messageType) != handlers.end()) {
+    if (handlers.containsKey(messageType)) {
       handlers[messageType](messageContent);
     }
+    // if (handlers.find(messageType) != handlers.end()) {
+    //   handlers[messageType](messageContent);
+    // }
   }
 }
 
 void SerialCommunication::receiveIncomingData() {
-    static boolean recvInProgress = false;
-    static int ndx = 0;
-    char startMarker = '<';
-    char endMarker = '>';
-    char rc;
- 
-    while (stream->available() > 0 && newDataAvailable == false) {
-        rc = stream->read();
+  static boolean recvInProgress = false;
+  static int ndx = 0;
+  char startMarker = '<';
+  char endMarker = '>';
+  char rc;
 
-        if (recvInProgress == true) {
-            if (rc != endMarker) {
-                incomingDataBuffer[ndx] = rc;
-                ndx++;
-                if (ndx >= bufferSize) {
-                    ndx = bufferSize - 1;
-                }
-            }
-            else {
-                incomingDataBuffer[ndx] = '\0'; // terminate the string
-                recvInProgress = false;
-                ndx = 0;
-                newDataAvailable = true;
-            }
-        }
+  while (stream->available() > 0 && newDataAvailable == false) {
+    rc = stream->read();
 
-        else if (rc == startMarker) {
-            recvInProgress = true;
+    if (recvInProgress == true) {
+      if (rc != endMarker) {
+        incomingDataBuffer[ndx] = rc;
+        ndx++;
+        if (ndx >= bufferSize) {
+          ndx = bufferSize - 1;
         }
+      } else {
+        incomingDataBuffer[ndx] = '\0';  // terminate the string
+        recvInProgress = false;
+        ndx = 0;
+        newDataAvailable = true;
+      }
     }
+
+    else if (rc == startMarker) {
+      recvInProgress = true;
+    }
+  }
 }
