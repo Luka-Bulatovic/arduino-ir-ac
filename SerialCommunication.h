@@ -9,7 +9,7 @@
 class SerialCommunication {
 private:
   typedef void (*MessageHandler)(const char* message);
-  const static byte bufferSize = 64;
+  const static byte bufferSize = 100;
   char incomingDataBuffer[bufferSize];
 
   Stream* stream;
