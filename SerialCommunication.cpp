@@ -1,6 +1,10 @@
 // SerialCommunication.cpp
 #include "SerialCommunication.h"
 
+void SerialCommunication::setStream(Stream* stream) {
+  this->stream = stream;
+}
+
 void SerialCommunication::sendMessage(const char* tag, const char* message) {
   stream->print(startMessageMarker);
   stream->print(tag);
