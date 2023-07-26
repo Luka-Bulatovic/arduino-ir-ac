@@ -41,9 +41,6 @@ void SerialCommunication::handleMessage(char* message) {
     if (handlers.containsKey(messageType)) {
       handlers[messageType](messageContent);
     }
-    // if (handlers.find(messageType) != handlers.end()) {
-    //   handlers[messageType](messageContent);
-    // }
   }
 }
 

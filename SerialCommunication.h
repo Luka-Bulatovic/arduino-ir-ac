@@ -13,7 +13,7 @@ private:
   char incomingDataBuffer[bufferSize];
 
   Stream* stream;
-  Map<String, MessageHandler> handlers;
+  Map<char*, MessageHandler> handlers;
   bool newDataAvailable = false;
 
   static const char startMessageMarker = '<';

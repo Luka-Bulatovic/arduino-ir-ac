@@ -2,15 +2,14 @@
 #ifndef DISPLAYCONTROLLER_H
 #define DISPLAYCONTROLLER_H
 
-#include <Wire.h>
-#include "Adafruit_GFX.h"
-#include "Adafruit_SSD1306.h"
+#include <SSD1306Ascii.h>
+#include <SSD1306AsciiAvrI2c.h>
 
 class DisplayController {
 private:
-  const int screenWidth = 128;
-  const int screenHeight = 64;
-  Adafruit_SSD1306* display;
+  const static int SCREEN_WIDTH = 128;
+  const static int SCREEN_HEIGHT = 64;
+  SSD1306AsciiAvrI2c display;
 
 public:
   DisplayController();

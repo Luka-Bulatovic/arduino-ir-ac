@@ -27,17 +27,12 @@ public:
     MideaACController() : irsend(IRsend(3)) {  }
 
     void executeCommand(AcMode mode, int temp, FanSpeed fanSpeed) {
-        // Serial.println(F("in executeCommand, casting commandbyte:"));
         byte commandByte = static_cast<byte>(fanSpeed) << 4 | 0xF;
-        // Serial.println(commandByte);
         int tempCode = getTemperatureCode(temp);
-        // Serial.print("in executeCommand, commandByte and tempCode:");
-        // Serial.print(commandByte); Serial.print("   "); Serial.println(tempCode);
 
         if (tempCode < 0) {
             Serial.print(F("Failed to convert temperature: "));
         } else {
-            Serial.println(F("Sending command"));
             sendCommand(commandByte, ((byte) tempCode) << 4 | static_cast<byte>(mode));
         }
     }
@@ -57,10 +52,6 @@ private:
     }
 
     void sendCommand(byte b1, byte b2) {
-        Serial.println(F("in sendCommand:"));
-        Serial.println(b1);
-        Serial.println(b2);
-
         emitStartSignal();
         emitByte(0xB2);
         emitByte(b1);
