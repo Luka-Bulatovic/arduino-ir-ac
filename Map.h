@@ -84,7 +84,7 @@ public:
   Map() { size = 0; }
 
   void insert(const char* key, const ValueType& value) {
-    if(size >= capacity - 1)
+    if(size > capacity - 1)
       return;
     
     size++;

@@ -23,6 +23,11 @@ void handleACMessage(const char* command) {
       z = fan speed : 0 - off; 1 - low; 2 - medium; 3 - high; 4 - auto
   */
 
+  if(strcmp(command, "off") == 0) {
+    acController.stop();
+    return;
+  }
+
   int commandVal = atoi(command);
   
   // Wrong format
