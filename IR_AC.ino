@@ -9,9 +9,11 @@ MideaACController acController;
 char displayKey[] = "display";
 char acKey[] = "ac";
 
+/*
 void handleDisplayMessage(const char* message) {
   display.show(message);
 }
+*/
 
 void handleACMessage(const char* command) {
   /*
@@ -32,7 +34,7 @@ void handleACMessage(const char* command) {
   
   // Wrong format
   if(commandVal < 1000 || strlen(command) != 4) {
-    display.show("AC: Wrong format");
+    //display.show("AC: Wrong format");
     return;
   }
   
@@ -41,17 +43,17 @@ void handleACMessage(const char* command) {
   int fanSpeed = commandVal % 10;
 
   if(temperature < 17 || temperature > 30) {
-    display.show("AC: Wrong temperature");
+    //display.show("AC: Wrong temperature");
     return;
   }
 
   if(mode < 0 || mode > 3) {
-    display.show("AC: Wrong mode");
+    //display.show("AC: Wrong mode");
     return;
   }
 
   if(fanSpeed < 0 || fanSpeed > 4) {
-    display.show("AC: Wrong fan speed");
+    //display.show("AC: Wrong fan speed");
     return;
   }
 
@@ -106,18 +108,18 @@ void setup() {
     ;  // wait for serial port to connect. Needed for native USB
   }
 
-  pinMode(3, OUTPUT);
-
-  display.initialize();
+  // Initialize display
+  // display.initialize();
 
   // Setup Serial Communication between ATMega and ESP8266
   communication.setStream(&Serial);
 
-  acController.irsend.begin(3);
   // Initialize MideaACController
+  pinMode(3, OUTPUT);
+  acController.irsend.begin(3);
 
   // Income message handlers
-  communication.registerHandler(displayKey, handleDisplayMessage);
+  // communication.registerHandler(displayKey, handleDisplayMessage);
   communication.registerHandler(acKey, handleACMessage);
 }
 
